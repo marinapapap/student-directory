@@ -1,8 +1,7 @@
 def input_students
-  puts "Please enter the names of the students, their cohort, their country of birth, age and favourite hobby".center(70)
-  puts "To finish, just hit return twice".center(70)
-  puts "First enter their name".center(70)
-  
+  puts "Please enter the names of the students, their cohort, their country of birth, age and favourite hobby"
+  puts "To finish, just hit return twice"
+  puts "First enter their name"
   students = []
   
   name = gets.chomp
@@ -20,22 +19,23 @@ def input_students
     
     while !check_typo.include?(cohort.capitalize) do
       puts "Enter cohort"
-      cohort = gets.chomp 
+      cohort = gets.chomp
     end 
     
-    puts "Enter their country of birth".center(70)
-    cob = gets.chomp
+    # puts "Enter their country of birth"
+    # cob = gets.chomp
     
-    puts "Enter their age".center(70)
-    age = gets.chomp
+    # puts "Enter their age"
+    # age = gets.chomp
     
-    puts "Enter their favourite hobby".center(70)
-    hobby = gets.chomp
+    # puts "Enter their favourite hobby"
+    # hobby = gets.chomp
     
-    students << {name: name.capitalize, cohort: cohort.capitalize.to_sym, cob: cob, age: age, hobby: hobby}
-    puts "Now we have #{students.count} students".center(70)
+    students << {name: name.capitalize, cohort: cohort.downcase.to_sym}
+    # , cob: cob, age: age, hobby: hobby
+    puts "Now we have #{students.count} students"
     
-    puts "Enter next name".center(70)
+    puts "Enter next name"
     name = gets.chomp
 
   end
@@ -45,22 +45,33 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy".center(70)
-  puts "---------------".center(70)
+  puts "The students of Villains Academy"
+  puts "---------------"
 end
 
 def prints(students)
-  index = 0
-  while index < students.count do
-    if students[index][:name][0] == "M" && students[index][:name].length < 12
-      puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]} cohort.)".center(70)
+  
+  cohorts = {}
+  
+  students.each do |x|
+    month = x[:cohort]
+    name = x[:name]
+    
+    if cohorts[month] == nil
+      cohorts[month] = []
     end
-    index += 1
+      
+    cohorts[month].push(name)
   end
+  
+  puts "Input category"
+  cat = gets.chomp
+
+  print "The students in the #{cat.capitalize} cohort are: #{cohorts[cat.to_sym]}\n"
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(70)
+  puts "Overall, we have #{students.count} great students"
 end
 
 students = input_students
@@ -82,3 +93,11 @@ print_footer(students)
     
     # name = gets.chomp
     
+
+#  index = 0
+#   while index < students.count do
+#     if students[index][:name][0] == "M" && students[index][:name].length < 12
+#       puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]} cohort.)".center(70)
+#     end
+#     index += 1
+#   end
