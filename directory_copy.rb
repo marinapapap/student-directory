@@ -70,12 +70,20 @@ def prints(students)
   
   puts "Input category"
   cat = gets.chomp
-
-  print "The students in the #{cat.capitalize} cohort are: #{cohorts[cat.to_sym]}\n"
+  
+  if students != []
+    print "The students in the #{cat.capitalize} cohort are: #{cohorts[cat.to_sym]}\n"
+  else
+    puts "There are no students in this cohort"
+  end
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  if students.count > 1
+    puts "Overall, we have #{students.count} great students"
+  elsif students.count == 1
+    puts "Overall, we have 1 great student"
+  end
 end
 
 students = input_students
