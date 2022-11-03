@@ -1,5 +1,5 @@
 def input_students
-  puts "Please enter the names of the students, their country of birth, age and favourite hobby".center(70)
+  puts "Please enter the names of the students, their cohort, their country of birth, age and favourite hobby".center(70)
   puts "To finish, just hit return twice".center(70)
   puts "First enter their name".center(70)
   
@@ -8,6 +8,20 @@ def input_students
   name = gets.chomp
   
   while !name.empty? do
+      
+    puts "Enter cohort"
+    cohort = gets.chomp
+  
+    if cohort.empty?
+      cohort = "November"
+    end
+    
+    check_typo = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    
+    while !check_typo.include?(cohort.capitalize) do
+      puts "Enter cohort"
+      cohort = gets.chomp 
+    end 
     
     puts "Enter their country of birth".center(70)
     cob = gets.chomp
@@ -18,7 +32,7 @@ def input_students
     puts "Enter their favourite hobby".center(70)
     hobby = gets.chomp
     
-    students << {name: name.capitalize, cob: cob, age: age, hobby: hobby, cohort: :november}
+    students << {name: name.capitalize, cohort: cohort.capitalize.to_sym, cob: cob, age: age, hobby: hobby}
     puts "Now we have #{students.count} students".center(70)
     
     puts "Enter next name".center(70)
