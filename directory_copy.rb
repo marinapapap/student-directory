@@ -33,7 +33,11 @@ def input_students
     
     students << {name: name.capitalize, cohort: cohort.downcase.to_sym}
     # , cob: cob, age: age, hobby: hobby
-    puts "Now we have #{students.count} students"
+    if students.count == 1
+      puts "Now we have 1 student"
+    else
+      puts "Now we have #{students.count} students"
+    end
     
     puts "Enter next name"
     name = gets.chomp
