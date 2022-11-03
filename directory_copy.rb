@@ -8,7 +8,7 @@ def input_students
   
   while !name.empty? do
     
-    students << {name: name, cohort: :november}
+    students << {name: name.capitalize, cohort: :november}
     puts "now we have #{students.count} students"
     
     name = gets.chomp
@@ -24,10 +24,12 @@ def print_header
 end
 
 def prints(students)
-  students.each_with_index do |student, index|
-    if (student[:name][0] == "M" || student[:name][0] == "m") && student[:name].length < 12
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  index = 0
+  while index < students.count do
+    if students[index][:name][0] == "M" && students[index][:name].length < 12
+      puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]} cohort.)".center(60)
     end
+    index += 1
   end
 end
 
@@ -39,3 +41,13 @@ students = input_students
 print_header
 prints(students)
 print_footer(students)
+
+
+
+# students.each_with_index do |student, index|
+#     if (student[:name][0] == "M" || student[:name][0] == "m") && student[:name].length < 12
+#       puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+#     end
+#   end
+
+#  || students[index][:name][0] == "m"
