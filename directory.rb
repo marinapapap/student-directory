@@ -1,27 +1,27 @@
 @students = [] # an empty array accesible to all methods
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
   
-  students = []
-  
-  name = STDIN.gets.chomp
-  
-  while !name.empty? do
+  while true do
     
-    @students << {name: name, cohort: :november}
+    puts "Please enter the name of the student and their cohort"
+    puts "To finish, just hit return twice"
+  
+    name = STDIN.gets.chomp
+    break if name.empty?
+    
+    puts "Now enter their cohort"
+    cohort = STDIN.gets.chomp
+    
+    students_array(name, cohort)
     puts "now we have #{@students.count} students"
     
-    name = STDIN.gets.chomp
   end
-  
-  students
   
 end
 
-def students_array
-  
+def students_array(name, cohort)
+  @students << {name: name, cohort: cohort.to_sym}
 end
 
 def print_header
@@ -93,7 +93,7 @@ def load_students(filename = "students.csv")
   File.open(filename, "r") do |file|
     file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
-      @students << {name: name, cohort: cohort.to_sym}
+      students_array(name, cohort)
   end
   end
 end
@@ -109,6 +109,7 @@ def try_load_students
     exit # quit the program
   end
 end
+
 
 try_load_students
 interactive_menu
