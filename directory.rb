@@ -1,5 +1,7 @@
 @students = [] # an empty array accesible to all methods
 
+@width = 90
+
 def input_students
   
   while true do
@@ -25,18 +27,18 @@ def students_array(name, cohort)
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "---------------"
+  puts "The students of Villains Academy".center(@width)
+  puts "---------------".center(@width)
 end
 
 def print_student_list
   @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{student[:name]} (#{student[:cohort]} cohort)".center(@width)
   end
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students".center(@width)
 end
 
 def show_students
@@ -95,9 +97,9 @@ def save_students(filename = "students.csv")
   puts "Hit enter to continue or 'N' + enter to save to another new file"
   input = gets.chomp
   filename = save_or_load_new if !input.empty?
-  # open the file for writing
+
   File.open(filename, "w") do |file|
-  # iterate over the array of students
+ 
     @students.each do |student|
       student_data = [student[:name], student[:cohort]]
       csv_line = student_data.join(",")
@@ -109,7 +111,7 @@ end
 def load_students(filename = "students.csv")
   
   puts "You are about to open our default file: #{filename}"
-  puts "Hit enter to continue or type any letter followed by enter to open a different file"
+  puts "Hit enter to continue or type 'N' + enter to open a different file"
   input = gets.chomp.downcase
   filename = save_or_load_new if !input.empty?
   
@@ -128,18 +130,18 @@ def save_or_load_new
   filename
 end
 
-def try_load_students
-  filename = ARGV.first # first argument from the command line
-  return if filename.nil? # get out of the method if it isn't given
-  if File.exist?(filename) # if it exists
+def try_load_students(filename = "students.csv")
+  
+  filename = ARGV.first unless ARGV.first.nil?
+
+  if File.exist?(filename) 
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
-  else # if it doesn't exist
+  else 
     puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
+    exit 
   end
 end
-
 
 try_load_students
 interactive_menu
