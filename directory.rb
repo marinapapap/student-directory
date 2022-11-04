@@ -104,8 +104,10 @@ def save_students(filename = "students.csv")
       student_data = [student[:name], student[:cohort]]
       csv_line = student_data.join(",")
       file.puts csv_line
+      puts "#{student[:name]} has been saved to the file"
     end
   end
+  
 end
 
 def load_students(filename = "students.csv")
