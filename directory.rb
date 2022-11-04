@@ -77,25 +77,55 @@ def interactive_menu
   end
 end
 
-def save_students
+# def save_students
+#   # open the file for writing
+#   file = File.open("students.csv", "w")
+#   # iterate over the array of students
+#   @students.each do |student|
+#     student_data = [student[:name], student[:cohort]]
+#     csv_line = student_data.join(",")
+#     file.puts csv_line
+#   end
+#   file.close
+# end
+
+def save_students(filename = "students.csv")
+  
+  puts "You are about to save to #{filename}"
+  puts "Hit enter to continue or 'N' + enter to save to another new file"
+  input = gets.chomp
+  filename = save_or_load_new if !input.empty?
   # open the file for writing
-  file = File.open("students.csv", "w")
+  File.open(filename, "w") do |file|
   # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
 end
 
 def load_students(filename = "students.csv")
+  
+  puts "You are about to open our default file: #{filename}"
+  puts "Hit enter to continue or type any letter followed by enter to open a different file"
+  input = gets.chomp.downcase
+  filename = save_or_load_new if !input.empty?
+  
   File.open(filename, "r") do |file|
     file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
       students_array(name, cohort)
   end
   end
+end
+
+def save_or_load_new
+  puts "Enter file name"
+  filename = STDIN.gets.chomp
+  filename = "#{filename}.csv" if !filename.include?(".csv")
+  filename
 end
 
 def try_load_students
