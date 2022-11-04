@@ -20,6 +20,10 @@ def input_students
   
 end
 
+def students_array
+  
+end
+
 def print_header
   puts "The students of Villains Academy"
   puts "---------------"
@@ -35,18 +39,18 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+def show_students
+  print_header
+  print_student_list
+  print_footer
+end
+
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
   puts "9. Exit"
-end
-
-def show_students
-  print_header
-  print_student_list
-  print_footer
 end
 
 def process(selection)
@@ -86,12 +90,12 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+      @students << {name: name, cohort: cohort.to_sym}
   end
-  file.close
+  end
 end
 
 def try_load_students
