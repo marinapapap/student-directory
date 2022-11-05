@@ -2,6 +2,8 @@
 
 @width = 90
 
+require 'csv'
+
 def input_students
   
   while true do
@@ -114,19 +116,20 @@ def save_students(filename = "students.csv")
   puts "You are about to save to #{filename}"
   puts "Hit enter to continue or 'N' + enter to save to another new file"
   input = gets.chomp
-  filename = save_or_load_new if !input.empty?
+  filename = save_or_load_new if input == "N"
 
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |file|
  
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
-      puts "#{student[:name]} has been saved to the file"
+      file << [student[:name], student[:cohort]]
+      # student_data = [student[:name], student[:cohort]]
+      # csv_line = student_data.join(",")
+      # file.puts csv_line
+      # puts "#{student[:name]} has been saved to the file"
     end
-    
-  end
   
+  end
+  puts "Save to #{filename} complete"
 end
 
 def load_students(filename = "students.csv")
@@ -134,14 +137,15 @@ def load_students(filename = "students.csv")
   puts "You are about to open our default file: #{filename}"
   puts "Hit enter to continue or type 'N' + enter to open a different file"
   input = gets.chomp.downcase
-  filename = save_or_load_new if !input.empty?
+  filename = save_or_load_new if input == "N"
   
-  File.open(filename, "r") do |file|
-    file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-      students_array(name, cohort)
+  # File.open(filename, "r") do |file|
+  #   file.readlines.each do |line|
+  CSV.foreach(filename) do |line|
+    name, cohort = line[0..1]
+    students_array(name, cohort)
   end
-  end
+# end
 end
 
 def save_or_load_new
