@@ -11,19 +11,37 @@ def input_students
   
     name = STDIN.gets.chomp
     break if name.empty?
+    name = make_capitals(name)
     
-    puts "Now enter their cohort"
+    puts "Enter cohort"
     cohort = STDIN.gets.chomp
+  
+    cohort.empty? ? cohort = "November" : cohort
+    
+    cohort = check_typo(cohort)
     
     students_array(name, cohort)
     puts "now we have #{@students.count} students"
     
   end
+end
   
+def check_typo(cohort)
+  check_typo = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  
+  while !check_typo.include?(cohort.downcase.capitalize) do
+    puts "Enter cohort"
+    cohort = STDIN.gets.chomp
+  end 
+  cohort
+end
+
+def make_capitals(name)
+  name.split(" ").map { |x| x.downcase.capitalize }.join(" ")
 end
 
 def students_array(name, cohort)
-  @students << {name: name, cohort: cohort.to_sym}
+  @students << {name: name, cohort: cohort.downcase.capitalize.to_sym}
 end
 
 def print_header
@@ -32,8 +50,8 @@ def print_header
 end
 
 def print_student_list
-  @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)".center(@width)
+  @students.each_with_index do |student, index|
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)".center(@width)
   end
 end
 
@@ -106,6 +124,7 @@ def save_students(filename = "students.csv")
       file.puts csv_line
       puts "#{student[:name]} has been saved to the file"
     end
+    
   end
   
 end
